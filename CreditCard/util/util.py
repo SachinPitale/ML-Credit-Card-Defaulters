@@ -1,4 +1,3 @@
-from tkinter import E
 import yaml
 from CreditCard.exception import CreditCardException
 import os, sys
