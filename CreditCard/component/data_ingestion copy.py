@@ -7,8 +7,7 @@ import tarfile
 from six.moves import urllib
 import numpy as np
 import pandas as pd
-import shutil
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedShuffleSplit
 
 class DataIngestion:
 
@@ -43,8 +42,7 @@ class DataIngestion:
 
         except Exception as e:
             raise CreditCardException(e,sys) from e
-    #def extract_tgz_file(self,tgz_file_path:str):
-    def extract_tgz_file(self):
+    def extract_tgz_file(self,tgz_file_path:str):
         try:
             raw_data_dir = self.data_ingestion_config.raw_data_dir
 
@@ -53,14 +51,10 @@ class DataIngestion:
 
             os.makedirs(raw_data_dir,exist_ok=True)
 
-            # logging.info(f"Extracting tgz file: [{tgz_file_path}] into dir: [{raw_data_dir}]")
-            # with tarfile.open(tgz_file_path) as housing_tgz_file_obj:
-            #     housing_tgz_file_obj.extractall(path=raw_data_dir)
-            # logging.info(f"Extraction completed")
-
-            dataset_file_path = self.data_ingestion_config.dataset_file_path
-            shutil.copy(dataset_file_path, raw_data_dir)
-
+            logging.info(f"Extracting tgz file: [{tgz_file_path}] into dir: [{raw_data_dir}]")
+            with tarfile.open(tgz_file_path) as housing_tgz_file_obj:
+                housing_tgz_file_obj.extractall(path=raw_data_dir)
+            logging.info(f"Extraction completed")
 
         except Exception as e:
             raise CreditCardException(e,sys) from e
@@ -71,26 +65,28 @@ class DataIngestion:
 
             file_name = os.listdir(raw_data_dir)[0]
 
-            credit_card_file_path = os.path.join(raw_data_dir,file_name)
+            housing_file_path = os.path.join(raw_data_dir,file_name)
 
 
-            logging.info(f"Reading csv file: [{credit_card_file_path}]")
-            credit_card_data_frame = pd.read_csv(credit_card_file_path)
-            y=credit_card_data_frame['default payment next month']
-            X=credit_card_data_frame.drop(columns=['default payment next month'])
+            logging.info(f"Reading csv file: [{housing_file_path}]")
+            housing_data_frame = pd.read_csv(housing_file_path)
 
-    
-
+            housing_data_frame["income_cat"] = pd.cut(
+                housing_data_frame["median_income"],
+                bins=[0.0, 1.5, 3.0, 4.5, 6.0, np.inf],
+                labels=[1,2,3,4,5]
+            )
             
 
             logging.info(f"Splitting data into train and test")
-            train_set = None
-            test_set = None
+            strat_train_set = None
+            strat_test_set = None
 
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 
-            train_set = pd.concat([X_train, y_train], axis=1, join='inner')
-            test_set = pd.concat([X_test, y_test], axis=1, join='inner')
+            for train_index,test_index in split.split(housing_data_frame, housing_data_frame["income_cat"]):
+                strat_train_set = housing_data_frame.loc[train_index].drop(["income_cat"],axis=1)
+                strat_test_set = housing_data_frame.loc[test_index].drop(["income_cat"],axis=1)
 
             train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir,
                                             file_name)
@@ -98,15 +94,15 @@ class DataIngestion:
             test_file_path = os.path.join(self.data_ingestion_config.ingested_test_dir,
                                         file_name)
             
-            if train_set is not None:
+            if strat_train_set is not None:
                 os.makedirs(self.data_ingestion_config.ingested_train_dir,exist_ok=True)
                 logging.info(f"Exporting training datset to file: [{train_file_path}]")
-                train_set.to_csv(train_file_path,index=False)
+                strat_train_set.to_csv(train_file_path,index=False)
 
-            if test_set is not None:
+            if strat_test_set is not None:
                 os.makedirs(self.data_ingestion_config.ingested_test_dir, exist_ok= True)
                 logging.info(f"Exporting test dataset to file: [{test_file_path}]")
-                test_set.to_csv(test_file_path,index=False)
+                strat_test_set.to_csv(test_file_path,index=False)
             
 
             data_ingestion_artifact = DataIngestionArtifact(train_file_path=train_file_path,
@@ -122,9 +118,8 @@ class DataIngestion:
     
     def initiate_data_ingestion(self)-> DataIngestionArtifact:
         try:
-            #tgz_file_path =  self.download_housing_data()
-            #return self.extract_tgz_file(tgz_file_path=tgz_file_path)
-            self.extract_tgz_file()
+            tgz_file_path =  self.download_housing_data()
+            self.extract_tgz_file(tgz_file_path=tgz_file_path)
             return self.split_data_as_train_test()
         except Exception as e:
             raise CreditCardException(e,sys) from e

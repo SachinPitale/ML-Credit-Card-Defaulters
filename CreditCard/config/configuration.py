@@ -46,7 +46,12 @@ class Configuration:
             data_ingestion_info = self.config_info[DATA_INGESTION_CONFIG_KEY]
             
             # get source data url
-            dataset_download_url = data_ingestion_info[DATA_INGESTION_DOWNLOAD_URL_KEY]
+            #dataset_download_url = data_ingestion_info[DATA_INGESTION_DOWNLOAD_URL_KEY]
+
+            dataset_file_path = os.path.join(ROOT_DIR,
+                data_ingestion_info[DATA_INGESTION_DATA_DIR_KEY],
+                data_ingestion_info[DATA_INGESTION_DATA_FILE_NAME_KEY]
+                )
 
             # destination location to download file
             tgz_download_dir = os.path.join(data_ingestion_artifact_dir,
@@ -71,7 +76,8 @@ class Configuration:
             )
 
             data_ingestion_config= DataIngestionConfig(
-            dataset_download_url=dataset_download_url,
+            #dataset_download_url=dataset_download_url,
+            dataset_file_path= dataset_file_path,
             tgz_download_dir=tgz_download_dir,
             raw_data_dir=raw_data_dir,
             ingested_train_dir=ingested_train_dir,
