@@ -8,7 +8,7 @@ from CreditCard.entity.artifcat_entity import DataIngestionArtifact
 from CreditCard.entity.config_entity import DataIngestionConfig
 
 
-class pipeline:
+class Pipeline:
     
     def __init__(self,config:Configuration=Configuration()) -> None:
         try:
