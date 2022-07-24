@@ -1,0 +1,3 @@
+training_pipeline_config:
+  pipeline_name: CreditCard
+  artifact_dir: artifact
