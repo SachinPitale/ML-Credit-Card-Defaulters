@@ -1,5 +1,5 @@
 from re import T
-from CreditCard.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig
+from CreditCard.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig
 from CreditCard.constant import *
 from CreditCard.exception import CreditCardException
 import os, sys
@@ -84,5 +84,44 @@ class Configuration:
             ingested_test_dir=ingested_test_dir)
             logging.info(f"Data Ingestion config: {data_ingestion_config}")
             return data_ingestion_config
+        except Exception as e:
+            raise CreditCardException(e,sys) from e
+    def get_data_validation_config(self) -> DataValidationConfig:
+        try:
+            # Get main artifact directory
+            artifact_dir =  self.training_pipeline_config.artifact_dir
+
+            # find path of validation directory inside artifact
+            data_validation_artifact_dir=os.path.join(
+                artifact_dir,
+                DATA_VALIDATION_ARTIFACT_DIR_NAME,
+                self.time_stamp
+            )
+
+            # Get data validation keys
+            data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY]
+
+            # Get schema file name
+            schema_file_path = os.path.join(ROOT_DIR,
+            data_validation_config[DATA_VALIDATION_SCHEMA_DIR_KEY],
+            data_validation_config[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY]
+            )
+
+            # GET report file directory path
+            report_file_path = os.path.join(data_validation_artifact_dir,
+            data_validation_config[DATA_VALIDATION_REPORT_FILE_NAME_KEY]
+            )
+            # GET report file path
+            report_page_file_path = os.path.join(data_validation_artifact_dir,
+            data_validation_config[DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY]
+            )
+
+            data_validation_config = DataValidationConfig(
+                schema_file_path=schema_file_path,
+                report_file_path=report_file_path,
+                report_page_file_path=report_page_file_path,
+            )
+            return data_validation_config
+
         except Exception as e:
             raise CreditCardException(e,sys) from e
