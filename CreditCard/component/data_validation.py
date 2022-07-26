@@ -1,4 +1,3 @@
-from tkinter import EXCEPTION
 from CreditCard.entity.config_entity import DataIngestionConfig,DataValidationConfig
 from CreditCard.entity.artifcat_entity import DataValidationArtifact,DataIngestionArtifact
 from CreditCard.logger import logging
@@ -53,6 +52,93 @@ class Datavalidation:
             return is_available
         except Exception as e:
             raise CreditCardException(e,sys) from e
+    def is_schema_file_exists(self) -> bool:
+        try:
+            """
+                          Method Name: is_schema_file_exists
+                          Description: This function validates the schema file exist or not
+                          On Failure: Exception
+            """
+            is_schema_file = False
+            schema_file_path=self.data_validation_config.schema_file_path
+            is_schema_file = os.path.exists(schema_file_path)
+            is_exist = is_schema_file
+
+            if not is_exist:
+                schema_file_path=self.data_validation_config.schema_file_path
+                message=f"Schema file: {schema_file_path}" \
+                    "is not present"
+                raise Exception(message)
+            return is_schema_file
+
+        except Exception as e:
+            raise CreditCardException(e,sys) from e
+
+
+    def validate_column_length(self) -> bool:
+        try:
+            """
+                          Method Name: validate_column_length
+                          Description: This function validates the number of columns in the csv files.
+                                       It is should be same as given in the schema file.
+                          Output: None
+                          On Failure: Exception
+            """
+            schema_file_path=self.data_validation_config.schema_file_path
+            Number_of_Columns=self.data_validation_config.number_of_Columns
+            train_df,test_df =  self.get_train_and_test_df()
+            if train_df.shape[1] != Number_of_Columns:                
+                message=f"train csv : {train_df}" \
+                    "doesn't have all the columns"
+                raise Exception(message)
+            
+            if test_df.shape[1] != Number_of_Columns:                
+                message=f"test csv : {test_df}" \
+                    "doesn't have all the columns"
+                raise Exception(message)
+
+
+        except Exception as e:
+            raise CreditCardException(e,sys) from e
+    
+    def validateMissingValuesInWholeColumn(self):
+        try:
+            """
+            Method Name: validateMissingValuesInWholeColumn
+            Description: This function validates if any column in the csv file has all values missing.
+            
+            """
+            train_df,test_df =  self.get_train_and_test_df()
+            for columns in train_df:
+                if (len(train_df[columns]) - train_df[columns].count()) == len(train_df[columns]):
+                    message=f"Invalid Column for the file!! : {columns}"
+                    raise Exception(message)
+            
+
+            for columns in test_df:
+                if (len(test_df[columns]) - test_df[columns].count()) == len(test_df[columns]):
+                    message=f"Invalid Column for the file!! : {columns}"
+                    raise Exception(message) 
+        except Exception as e:
+            raise CreditCardException(e,sys) from e
+    def validate_columns_names(self):
+        try:
+            Columns_Names=self.data_validation_config.ColNames
+            logging.info(f"all columns names are {Columns_Names}")
+            train_df,test_df =  self.get_train_and_test_df()
+            for colName in Columns_Names:
+                if colName not in train_df.columns:
+                    message=f"Column Column doesn't find in file!! : {colName}"
+                    logging.ERROR(message)
+                    raise Exception(message)
+
+                if colName not in test_df.columns:
+                    message=f"Column Column doesn't find in file!! : {colName}"
+                    logging.ERROR(message)
+                    raise Exception(message) 
+        except Exception as e:
+            raise CreditCardException(e,sys) from e
+
     def validate_dataset_schema(self)->bool:
         try:
             validation_status = False
@@ -119,9 +205,12 @@ class Datavalidation:
 
     def initiate_data_validation(self)-> DataValidationArtifact:
         try:
-            logging.info("started data test set")
+
             self.is_train_test_file_exists()
-            logging.info("completed data  test set")
+            self.is_schema_file_exists()
+            self.validate_column_length()
+            self.validate_columns_names()
+            self.validateMissingValuesInWholeColumn()
             self.validate_dataset_schema()
             self.is_data_drift_found()
 

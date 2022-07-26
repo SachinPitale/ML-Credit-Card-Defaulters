@@ -10,9 +10,11 @@ from CreditCard.logger import logging
 class Configuration:
     def __init__(self,
         config_file_path:str = CONFIG_FILE_PATH,
+        schema_config_file_path:str = SCHEMA_CONFIG_FILE_PATH,
         current_time_stamp:str = CURRENT_TIME_STAMP )->None:
         try:
             self.config_info=read_yaml_file(file_path=config_file_path)
+            self.schema_info=read_yaml_file(file_path=schema_config_file_path)
             self.training_pipeline_config =  self.get_training_pipeline_config()
             self.time_stamp = current_time_stamp
 
@@ -115,11 +117,15 @@ class Configuration:
             report_page_file_path = os.path.join(data_validation_artifact_dir,
             data_validation_config[DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY]
             )
-
+            number_of_Columns = self.schema_info[DATA_VALIDATION_NUMBER_OF_COLUMNS_KEY]
+            ColNames = self.schema_info[DATA_VALIDATION_COLUMNS_NAMES_KEY]
+            logging.info(f"Data  config: {self.schema_info}")
             data_validation_config = DataValidationConfig(
                 schema_file_path=schema_file_path,
                 report_file_path=report_file_path,
                 report_page_file_path=report_page_file_path,
+                number_of_Columns=number_of_Columns,
+                ColNames=ColNames
             )
             return data_validation_config
 
