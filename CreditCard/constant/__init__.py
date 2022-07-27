@@ -45,3 +45,13 @@ DATA_VALIDATION_NUMBER_OF_COLUMNS_KEY = "NumberofColumns"
 DATA_VALIDATION_COLUMNS_NAMES_KEY= "ColName"
 
 
+# Data Transformation related variables
+DATA_TRANSFORMATION_ARTIFACT_DIR = "data_transformation"
+DATA_TRANSFORMATION_CONFIG_KEY = "data_transformation_config"
+DATA_TRANSFORMATION_DIR_NAME_KEY = "transformed_dir"
+DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY = "transformed_train_dir"
+DATA_TRANSFORMATION_TEST_DIR_NAME_KEY = "transformed_test_dir"
+DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY = "preprocessing_dir"
+DATA_TRANSFORMATION_PREPROCESSED_FILE_NAME_KEY = "preprocessed_object_file_name"
+
+
