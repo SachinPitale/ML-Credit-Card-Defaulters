@@ -19,7 +19,7 @@ def read_yaml_file(file_path:str)->dict:
 
 
 
-def save_numpy_array_data(file_path:str, arrar:np.array):
+def save_numpy_array_data(file_path:str, array:np.array):
     """
     Save numpy array data to file
     file_path: str location of file to save
