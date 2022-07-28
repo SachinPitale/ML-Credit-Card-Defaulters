@@ -55,5 +55,7 @@ DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY = "preprocessing_dir"
 DATA_TRANSFORMATION_PREPROCESSED_FILE_NAME_KEY = "preprocessed_object_file_name"
 
 DATASET_SCHEMA_COLUMNS_KEY = "ColName"
+NUMERICAL_COLUMN_KEY="numerical_columns"
+TARGET_COLUMN_KEY="target_column"
 
 
