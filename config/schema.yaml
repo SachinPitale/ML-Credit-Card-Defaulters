@@ -24,4 +24,6 @@ ColName:
   PAY_AMT4: int64
   PAY_AMT5: int64
   PAY_AMT6: int64
-  default payment next month: int64
+
+
+target_column: default payment next month

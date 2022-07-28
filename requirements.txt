@@ -7,4 +7,5 @@ ipykernel
 PyYAML
 six
 evidently
+dill
 -e .

@@ -10,6 +10,7 @@ __pycache__/
 .Python
 build/
 CreditCard/artifact/
+notebook/
 develop-eggs/
 dist/
 downloads/
