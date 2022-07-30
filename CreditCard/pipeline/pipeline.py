@@ -4,10 +4,11 @@ import os,sys
 from CreditCard.logger import logging
 from CreditCard.component.data_ingestion import DataIngestion
 from CreditCard.config.configuration import Configuration
-from CreditCard.entity.artifcat_entity import DataIngestionArtifact,DataValidationArtifact,DataTransformationArtifact
+from CreditCard.entity.artifcat_entity import DataIngestionArtifact,DataValidationArtifact,DataTransformationArtifact,ModelTrainerArtifact
 from CreditCard.entity.config_entity import DataIngestionConfig,DataTransformationConfig
 from CreditCard.component.data_validation import Datavalidation
 from CreditCard.component.data_transformation import DataTransformation
+from CreditCard.component.model_trainer import ModelTrainer
 
 class Pipeline:
     
@@ -45,6 +46,15 @@ class Pipeline:
             return data_transformation.initiate_data_transformation()
         except Exception as e:
             raise CreditCardException(e,sys) from e
+    
+    def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+        try:
+            model_trainer = ModelTrainer(model_trainer_config=self.config.get_model_trainer_config(),
+                                         data_transformation_artifact=data_transformation_artifact
+                                         )
+            return model_trainer.initiate_model_trainer()
+        except Exception as e:
+            raise CreditCardException(e, sys) from e
             
     def run_pipeline(self):
         try:
@@ -54,6 +64,7 @@ class Pipeline:
                 data_ingestion_artifact=data_ingestion_artifact,\
                 data_validation_artifact=data_validation_artifact
             )
+            model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
           
         except Exception as e:
             raise CreditCardException(e,sys) from e
