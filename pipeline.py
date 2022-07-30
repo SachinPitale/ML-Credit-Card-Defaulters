@@ -7,7 +7,7 @@ def main():
     try:
         pipeline = Pipeline()
         pipeline.run_pipeline()
-        # data_validation_config = Configuration().get_model_trainer_config()
+        # data_validation_config = Configuration().get_model_evaluation_config()
         # print(data_validation_config)
     except Exception as e:
         raise Exception(e,sys) from e
