@@ -49,7 +49,7 @@ def evaluate_classification_model(model_list: list, X_train:np.ndarray, y_train:
     
     """
     Description:
-    This function compare multiple regression model return best model
+    This function compare multiple classification model return best model
     Params:
     model_list: List of model
     X_train: Training dataset input feature

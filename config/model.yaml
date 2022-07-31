@@ -28,3 +28,31 @@ model_selection:
       min_samples_leaf:
       - 6
       - 10
+  module_2:
+    class: DecisionTreeClassifier
+    module: sklearn.tree
+    params:
+      criterion: gini
+      max_depth: 3
+    search_param_grid:
+      criterion:
+      - gini
+      - entropy
+    max_depth:
+      - 3
+      - 4
+      - 5
+  module_3:
+    class: KNeighborsClassifier
+    module: sklearn.neighbors
+    params:
+      n_neighbors: 3
+      weights: uniform
+    search_param_grid:
+      n_neighbors:
+      - 3
+      - 5
+      - 10
+    weights:
+      - uniform
+      - distance

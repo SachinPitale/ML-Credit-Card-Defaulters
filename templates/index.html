@@ -8,22 +8,55 @@
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center">Defaults the credit card payment for the next month</h1>
+    <h1 style="text-align: center">Defaults the credit card payment</h1>
 
     <div class="form">
         <form action="/predict" method="POST">
-            <input type="number" name="LIMIT_BAL" id="limit_bal" placeholder="LIMIT BAL">
-    
-    
-            <input type="number" name="AGE" id="age" placeholder="AGE">
-            <input type="number" name="PAY_0" id="pay_0" placeholder="PAY_0">
-            <input type="number" name="PAY_2" id="pay_2"placeholder="PAY_2">
 
-            <label for="SEX">SEX</label>
-            <select id="sex">
+            <input type="number" name="limit_bal" id="limit_bal" placeholder="LIMIT BAL"><br>
+
+            <select name="sex" id="sex">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
-            </select>
+              </select><br>
+
+            <select name="education" id="education">
+                <option value="BE">BE</option>
+                <option value="MTech">MTech</option>
+                <option value="PhD">PhD</option>
+              </select><br>
+            <select name="marriage" id="marriage">
+                <option value="single">Single</option>
+                <option value="married">Married</option>
+              </select><br>
+            
+            <input type="number" name="age" id="age" placeholder="AGE"><br>
+            
+            <input type="number" name="pay_0" id="pay_0" placeholder="PAY_0">
+            <input type="number" name="pay_2" id="pay_2"placeholder="PAY_2">
+            <input type="number" name="pay_3" id="pay_3" placeholder="PAY_3">
+            <input type="number" name="pay_4" id="pay_4"placeholder="PAY_4">
+            <input type="number" name="pay_5" id="pay_5" placeholder="PAY_5">
+            <input type="number" name="pay_6" id="pay_6"placeholder="PAY_6"><br>
+            
+            <input type="number" name="bill_amt1" id="bill_amt1" placeholder="BILL_AMT1">
+            <input type="number" name="bill_amt2" id="bill_amt2"placeholder="BILL_AMT2">
+            <input type="number" name="bill_amt3" id="bill_amt3" placeholder="BILL_AMT3">
+            <input type="number" name="bill_amt4" id="bill_amt4"placeholder="BILL_AMT4">
+            <input type="number" name="bill_amt5" id="bill_amt5" placeholder="BILL_AMT5">
+            <input type="number" name="bill_amt6" id="bill_amt6"placeholder="BILL_AMT6"><br>
+            
+            <input type="number" name="pay_amt1" id="pay_amt1" placeholder="PAY_AMT1">
+            <input type="number" name="pay_amt2" id="pay_amt2"placeholder="PAY_AMT2">
+            <input type="number" name="pay_amt3" id="pay_amt3" placeholder="PAY_AMT3">
+            <input type="number" name="pay_amt4" id="pay_amt4"placeholder="PAY_AMT4">
+            <input type="number" name="pay_amt5" id="pay_amt5" placeholder="PAY_AMT5">
+            <input type="number" name="pay_amt6" id="pay_amt6"placeholder="PAY_AMT6"><br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <!-- -->
             <input type="submit" value="Predict">
         </form>
     </div>
