@@ -18,7 +18,7 @@ To build a classification methodology to determine whether a person defaults the
 
 ### Traning Pipeline
 ![Screenshot](images\model-train-arch.JPG)
-
+![script_execution_arch](images\model-train-arch.JPG)
 ### Stages
 #### Data Ingestion 
 - Download data from source location and save it to raw directory.
