@@ -17,7 +17,7 @@ To build a classification methodology to determine whether a person defaults the
 - default payment = Yes = 1, No = 0.
 
 ### Traning Pipeline
-![Screenshot](images\model_train_arch.JPG)
+![Screenshot](images\model-train-arch.JPG)
 
 ### Stages
 #### Data Ingestion 
