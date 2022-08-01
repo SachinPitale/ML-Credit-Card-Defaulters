@@ -17,7 +17,7 @@ To build a classification methodology to determine whether a person defaults the
 - default payment = Yes = 1, No = 0.
 
 ### Traning Pipeline
-![plot](images\model_train_arch.PNG)
+![Alt text](images\model_train_arch.PNG)
 
 ### Stages
 #### Data Ingestion 
@@ -44,17 +44,16 @@ To build a classification methodology to determine whether a person defaults the
 - evaluate the latest train model accuracy with already deployed model.
 
 #### Model Push
-- Push the model to artifacts
+- Push model to artifact repository
 
 
 ## Model Deployment link.
 [Model Access URL](https://ml-classification-model.herokuapp.com/)
 
 ### predication
-![plot](images\predication.PNG)
-
+![Alt text](images\predication.PNG)
 ### Result
-![plot](images\predication_result.PNG)
+![Alt text](images\predication_result.PNG)
 
 
 
