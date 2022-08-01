@@ -51,7 +51,7 @@ To build a classification methodology to determine whether a person defaults the
 [Model Access URL](https://ml-classification-model.herokuapp.com/)
 
 ### predication
-![Screenshot](images\predication.PNG)
+![Screenshot](images\predication.PNG?raw=true)
 ### Result
 ![Screenshot](images\predication_result.PNG)
 
