@@ -17,7 +17,7 @@ To build a classification methodology to determine whether a person defaults the
 - default payment = Yes = 1, No = 0.
 
 ### Traning Pipeline
-![Alt text](images\model_train_arch.PNG)
+![image](images\model_train_arch.PNG)
 
 ### Stages
 #### Data Ingestion 
@@ -51,9 +51,9 @@ To build a classification methodology to determine whether a person defaults the
 [Model Access URL](https://ml-classification-model.herokuapp.com/)
 
 ### predication
-![Alt text](images\predication.PNG)
+![image](images\predication.PNG)
 ### Result
-![Alt text](images\predication_result.PNG)
+![image](images\predication_result.PNG)
 
 
 
